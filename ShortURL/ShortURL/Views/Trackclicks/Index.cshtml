@@ -86,8 +86,8 @@
                     <div class="col-md-12" >
                         <label>Long URL: </label>
                     </div>
-                    <div class="col-md-12"  style="overflow:auto;">
-                        @Html.DisplayFor(Model => Model.LongURL, new { @class = "form-control" })
+                    <div class="col-md-12" style="overflow:auto;">
+                        @Html.LabelFor(model => model.LongURL, String.Format("{0}", @Model.LongURL.ToString()))
 
                     </div>
                 }

@@ -79,8 +79,7 @@
                     @*<div class="col-md-12" style="overflow-x:auto; overflow-y:auto; height:400px">*@
                 <div class="col-md-12">
                     <label>Short URL: </label>
-                    @Html.Label(Model.ShortURL, new { @class = "form-control" })
-                    <a href=@(Model.ShortURL) target="_blank">Click to Navigate to Short URL.</a>
+                    <a href=@(Model.ShortURL) target="_blank">@Model.ShortURL.ToString()</a>
                 </div>
                 }
                 else
