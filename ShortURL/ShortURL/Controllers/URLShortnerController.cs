@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using ShortURL.Helpers;
 using ShortURL.Models;
 
 namespace ShortURL.Controllers
@@ -46,7 +47,9 @@ namespace ShortURL.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                ServiceLocator.ErrorLogger("NEW ERROR LINE : URLShortner/Index | " + DateTime.Now + " | Error:  " + ex.ToString());
+
+                return View();                               
             }
         }
 
@@ -70,6 +73,8 @@ namespace ShortURL.Controllers
             }
             catch(Exception ex)
             {
+                ServiceLocator.ErrorLogger("NEW ERROR LINE : URLShortner/RedirectToURL | " + DateTime.Now + " | Error:  " + ex.ToString());
+
                 return Redirect(ConfigurationManager.AppSettings["redirecturl"].ToString());
             }
             

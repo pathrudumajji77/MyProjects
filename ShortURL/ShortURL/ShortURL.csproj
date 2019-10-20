@@ -191,6 +191,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ServiceLocator.cs" />
     <Compile Include="Helpers\SQLHelper.cs" />
     <Compile Include="Models\APIResponseModel.cs" />
     <Compile Include="Models\URLInfo.cs" />
