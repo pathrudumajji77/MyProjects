@@ -30,5 +30,15 @@ namespace ShortURL.Models
             public string Errordescription { get; set; }
 
         }
+
+        public class ApiGetURLDetailsResponseMessage
+        {
+            public string Result { get; set; }
+            public HttpStatusCode Responsecode { get; set; }
+            public URLInfo URLInfo { get; set; }
+            public string Errorcause { get; set; }
+            public string Errordescription { get; set; }
+
+        }
     }
 }

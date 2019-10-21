@@ -89,6 +89,58 @@ namespace ShortURL.Controllers
 
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetURLDetails(string shorturl)
+        {
+            ApiGetURLDetailsResponseMessage response = new ApiGetURLDetailsResponseMessage();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(shorturl))
+                {
+                    URLInfo info = new URLInfo();
+                    Uri uri = new Uri(shorturl);
+                    ProcessURLController processURL = new ProcessURLController();
+                    info = processURL.GetURLInfo(uri.AbsolutePath.TrimStart('/'), false);
+
+                    response.Result = "SUCCESS";
+                    response.Responsecode = HttpStatusCode.OK;
+                    response.URLInfo = info;
+                    response.Errorcause = "";
+                    response.Errordescription = "";
+                }
+                else
+                {
+                    response.Result = "FAIL";
+                    response.Responsecode = HttpStatusCode.Forbidden;
+                    response.URLInfo = null;
+                    response.Errorcause = "Not a valid URL!";
+                    response.Errordescription = "Please enter a valid URL";
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Result = "FAIL";
+                response.Responsecode = HttpStatusCode.InternalServerError;
+                response.URLInfo = null;
+                response.Errorcause = "Internal Server Error";
+                response.Errordescription = ex.Message;
+
+                ServiceLocator.ErrorLogger("NEW ERROR LINE : ProcessURL/GetURLDetails | " + DateTime.Now + " | Error:  " + ex.ToString());
+            }
+
+
+            string errorMessage = JsonConvert.SerializeObject(response);
+
+            var httpResponse = new HttpResponseMessage(response.Responsecode);
+            httpResponse.Content = new StringContent(errorMessage, System.Text.Encoding.UTF8, "application/json");
+            return httpResponse;
+
+
+        }
+
         public string GenerateShortID()
         {
             string shortid = string.Empty;
