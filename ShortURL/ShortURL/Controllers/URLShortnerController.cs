@@ -60,7 +60,7 @@ namespace ShortURL.Controllers
             {
                 URLInfo info = new URLInfo();
                 ProcessURLController processURL = new ProcessURLController();
-                info = processURL.GetURLInfo(shortCode);
+                info = processURL.GetURLInfo(shortCode, true);
 
                 if (info != null && !string.IsNullOrEmpty(info.LongURL))
                 {

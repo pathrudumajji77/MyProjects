@@ -108,56 +108,7 @@ namespace ShortURL.Controllers
             return shortid;
         }
 
-        [HttpGet]
-        public string ExpandURL(string u)
-        {
-            string longURL = string.Empty;
-            try
-            {
-                Uri uri = new Uri(u);
-
-                longURL = GetLongURL(uri.AbsolutePath.TrimStart('/'));
-            }
-            catch(Exception ex)
-            {
-                ServiceLocator.ErrorLogger("NEW ERROR LINE : ProcessURL/ExpandURL | " + DateTime.Now + " | Error:  " + ex.ToString());
-            }
-            
-
-            return longURL;
-        }
-
-        [HttpGet]
-        public IHttpActionResult RedirectURL(string id)
-        {
-            try
-            {
-                string longURL = GetLongURL(id);
-
-
-                if (string.IsNullOrEmpty(longURL))
-                {
-                    return Redirect(ConfigurationManager.AppSettings["redirecturl"].ToString());
-                }
-                else
-                {
-                    return Redirect(longURL);
-                }
-            }
-            catch(Exception ex)
-            {
-                ServiceLocator.ErrorLogger("NEW ERROR LINE : ProcessURL/RedirectURL | " + DateTime.Now + " | Error:  " + ex.ToString());
-
-                return Redirect(ConfigurationManager.AppSettings["redirecturl"].ToString());
-
-
-            }
-            
-
-
-        }
-
-
+      
         public long GetLongURLID(string longURL)
         {
             long urlID = 0;
@@ -227,45 +178,9 @@ namespace ShortURL.Controllers
             
             return isInserted;
         }
+               
 
-        public string GetLongURL(string id)
-        {
-            string longURL = string.Empty;
-
-            try
-            {
-                SQLHelper sql = new SQLHelper();
-                using (var Conn = sql.SqlConnection())
-                {
-                    Conn.Open();
-
-                    SqlCommand sqlCommand = new SqlCommand("scp_mydb_get_LongURL", Conn)
-                    {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    sqlCommand.Parameters.AddWithValue("@ShortCode", id);
-
-                    //SqlDataAdapter adapter = new SqlDataAdapter(sqlCommand);
-                    //DataSet ds = new DataSet();
-                    //adapter.Fill(ds);
-
-                    longURL = sqlCommand.ExecuteScalar().ToString();
-
-                    Conn.Close();
-                    Conn.Dispose();
-                }
-            }
-            catch(Exception ex)
-            {
-                ServiceLocator.ErrorLogger("NEW ERROR LINE : ProcessURL/GetLongURL | " + DateTime.Now + " | Error:  " + ex.ToString());
-            }
-
-            
-            return longURL;
-
-        }
-
-        public URLInfo GetURLInfo(string shorturl)
+        public URLInfo GetURLInfo(string shorturl, bool isVisited)
         {
             URLInfo info = new URLInfo();
 
@@ -281,6 +196,7 @@ namespace ShortURL.Controllers
                         CommandType = CommandType.StoredProcedure
                     };
                     sqlCommand.Parameters.AddWithValue("@ShortCode", shorturl);
+                    sqlCommand.Parameters.AddWithValue("@IsVisited", isVisited);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(sqlCommand);
                     DataSet ds = new DataSet();

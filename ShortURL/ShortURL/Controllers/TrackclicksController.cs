@@ -20,7 +20,7 @@ namespace ShortURL.Controllers
                     URLInfo info = new URLInfo();
                     Uri uri = new Uri(u);
                     ProcessURLController processURL = new ProcessURLController();
-                    info = processURL.GetURLInfo(uri.AbsolutePath.TrimStart('/'));
+                    info = processURL.GetURLInfo(uri.AbsolutePath.TrimStart('/'), false);
 
                     return View(info);
                 }

@@ -14,16 +14,25 @@ namespace ShortURL
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "TrackClicks",
+                url: "Trackclicks",
+                defaults: new { controller = "Trackclicks", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "ShortUrl",
                 url: "{shortCode}",
                 defaults: new { controller = "URLShortner", action = "RedirectToURL" }
             );
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "URLShortner", action = "Index", id = UrlParameter.Optional }
-            );
+               name: "Default",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "URLShortner", action = "Index", id = UrlParameter.Optional }
+           );
+            
+
+           
 
             //routes.MapRoute(
             //    name: "URLShortner",
